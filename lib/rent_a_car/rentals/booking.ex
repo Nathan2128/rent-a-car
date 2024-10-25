@@ -5,7 +5,7 @@ defmodule RentACar.Rentals.Booking do
   schema "bookings" do
     field :start_date, :date
     field :end_date, :date
-    field :state, :string, default: "available"
+    field :state, :string, default: "reserved"
     field :total_price, :decimal
 
     belongs_to :car, RentACar.Rentals.Car
@@ -24,6 +24,12 @@ defmodule RentACar.Rentals.Booking do
     |> assoc_constraint(:car)
     |> assoc_constraint(:user)
     |> calculate_total_price()
+  end
+
+  def cancel_changeset(booking, attrs) do
+    booking
+    |> cast(attrs, [:state])
+    |> validate_required([:state])
   end
 
   defp calculate_total_price(changeset) do
