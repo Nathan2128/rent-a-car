@@ -108,7 +108,7 @@ caleb =
 
 %Car{
   name: "Porsche Panamera",
-  slug: "porsche_panamera",
+  slug: "porsche-panamera",
   description: "Luxury sports sedan",
   price_per_day: Decimal.from_float(700.00),
   image: "porsche_panamera.jpg",
