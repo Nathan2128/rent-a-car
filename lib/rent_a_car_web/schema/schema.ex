@@ -24,6 +24,16 @@ defmodule RentACarWeb.Schema.Schema do
     end
   end
 
+  mutation do
+    @desc "Create a booking for a car"
+    field :create_booking, :booking do
+      arg :car_id, non_null(:id)
+      arg :start_date, non_null(:date)
+      arg :end_date, non_null(:date)
+      resolve(&Resolvers.Rentals.create_booking/3)
+    end
+  end
+
   # Input Object Types
   @desc "Filters for the list of cars"
   input_object :car_filter do
@@ -57,7 +67,7 @@ defmodule RentACarWeb.Schema.Schema do
   # call back functions for absinthe
   def context(ctx) do
     # source = Dataloader.Ecto.new(RentACar.Repo)
-
+    ctx = Map.put(ctx, :current_user, RentACar.Accounts.get_user(1))
     loader =
       Dataloader.new()
       |> Dataloader.add_source(Rentals, Rentals.datasource())
