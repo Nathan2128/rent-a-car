@@ -5,8 +5,13 @@ defmodule RentACarWeb.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/api", RentACarWeb do
+  scope "/" do
     pipe_through :api
+
+    forward "/api", Absinthe.Plug, schema: RentACarWeb.Schema.Schema
+
+    forward "/graphiql", Absinthe.Plug.GraphiQL,
+      schema: RentACarWeb.Schema.Schema
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

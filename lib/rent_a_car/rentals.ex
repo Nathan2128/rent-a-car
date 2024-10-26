@@ -1,4 +1,4 @@
-defmodule RentACar.Rentals do
+ defmodule RentACar.Rentals do
   @moduledoc """
   Rentals Context: interface for querying, booking, etc.
   """
@@ -134,5 +134,20 @@ defmodule RentACar.Rentals do
     |> Review.changeset(attrs)
     |> Ecto.Changeset.put_assoc(:user, user)
     |> Repo.insert()
+  end
+
+  def datasource() do
+    Dataloader.Ecto.new(Repo, query: &query/2)
+  end
+
+  #only apply this query filter when scope is a car
+  def query(Booking, %{scope: :car}) do
+    Booking
+    |> where(state: "reserved")
+    |> order_by(desc: :start_date)
+  end
+
+  def query(queryable, _) do
+    queryable
   end
 end

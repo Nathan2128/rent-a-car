@@ -1,4 +1,4 @@
-alias RentACar.Rentals.Place
+alias RentACar.Rentals.Car
 alias RentACar.Rentals.Booking
 alias RentACar.Rentals.Review
 alias RentACar.Accounts.User
