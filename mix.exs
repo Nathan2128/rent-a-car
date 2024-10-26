@@ -55,6 +55,11 @@ defmodule RentACar.MixProject do
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
       {:bcrypt_elixir, "~> 3.0"},
+      {:absinthe, "~> 1.7.5"},
+      {:absinthe_plug, "~> 1.5.8"},
+      {:absinthe_phoenix, "~> 2.0.2"},
+      {:dataloader, "~> 1.0.11"},
+      {:cors_plug, "~> 2.0"}
     ]
   end
 
