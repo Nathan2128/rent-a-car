@@ -1,5 +1,6 @@
 defmodule RentACarWeb.Resolvers.Rentals do
   alias RentACar.Rentals
+  alias RentACarWeb.Schema.ChangesetErrors
 
   def car(_, %{slug: slug}, _) do
     {:ok, Rentals.get_car_by_slug!(slug)}
