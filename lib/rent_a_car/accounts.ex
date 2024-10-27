@@ -33,7 +33,7 @@ defmodule RentACar.Accounts do
          true <- Bcrypt.verify_pass(password, password_hash) do
       {:ok, user}
     else
-      _ -> {:error, "could not authenticate"}
+      _ -> {:error, "Authentication unsuccessful."}
     end
   end
 

@@ -6,6 +6,7 @@ defmodule RentACarWeb.Schema.Schema do
   alias RentACar.Accounts
   alias RentACar.Rentals
   alias RentACarWeb.Resolvers
+  alias RentACarWeb.Schema.Middleware.Authenticate
 
   query do
     @desc "Get a car by slug"
@@ -21,6 +22,50 @@ defmodule RentACarWeb.Schema.Schema do
       arg(:filter, :car_filter)
       arg(:offset, :integer)
       resolve(&Resolvers.Rentals.cars/3)
+    end
+  end
+
+  mutation do
+    @desc "Create a booking for a car"
+    field :create_booking, :booking do
+      arg(:car_id, non_null(:id))
+      arg(:start_date, non_null(:date))
+      arg(:end_date, non_null(:date))
+      middleware Authenticate
+      resolve(&Resolvers.Rentals.create_booking/3)
+    end
+
+    @desc "Cancel a booking for a car"
+    field :cancel_booking, :booking do
+      arg(:booking_id, non_null(:id))
+      middleware Authenticate
+      resolve(&Resolvers.Rentals.cancel_booking/3)
+    end
+
+    @desc "Create a review for a car"
+    field :create_review, :review do
+      arg(:car_id, non_null(:id))
+      arg(:comment, :string)
+      arg(:rating, non_null(:integer))
+      middleware Authenticate
+      resolve(&Resolvers.Rentals.create_review/3)
+    end
+
+    @desc "Create an account"
+    field :sign_up, :session do
+      arg(:username, non_null(:string))
+      arg(:email, non_null(:string))
+      arg(:password, non_null(:string))
+      arg(:first_name, non_null(:string))
+      arg(:last_name, non_null(:string))
+      resolve(&Resolvers.Accounts.sign_up/3)
+    end
+
+    @desc "Sign in a user"
+    field :sign_in, :session do
+      arg(:username, non_null(:string))
+      arg(:password, non_null(:string))
+      resolve(&Resolvers.Accounts.sign_in/3)
     end
   end
 
@@ -56,7 +101,7 @@ defmodule RentACarWeb.Schema.Schema do
 
   # call back functions for absinthe
   def context(ctx) do
-    # source = Dataloader.Ecto.new(RentACar.Repo)
+    IO.inspect(ctx)
 
     loader =
       Dataloader.new()
