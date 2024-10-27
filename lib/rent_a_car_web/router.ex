@@ -3,6 +3,7 @@ defmodule RentACarWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug RentACarWeb.Plugs.SetCurrentUser
   end
 
   scope "/" do

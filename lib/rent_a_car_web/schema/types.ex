@@ -49,4 +49,9 @@ defmodule RentACarWeb.Schema.Types do
     field(:bookings, list_of(:booking), resolve: Absinthe.Resolution.Helpers.dataloader(Rentals))
     field(:reviews, list_of(:review), resolve: Absinthe.Resolution.Helpers.dataloader(Rentals))
   end
+
+  object :session do
+    field(:user, non_null(:user))
+    field(:token, non_null(:string))
+  end
 end
