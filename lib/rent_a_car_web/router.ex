@@ -12,7 +12,8 @@ defmodule RentACarWeb.Router do
     forward "/api", Absinthe.Plug, schema: RentACarWeb.Schema.Schema
 
     forward "/graphiql", Absinthe.Plug.GraphiQL,
-      schema: RentACarWeb.Schema.Schema
+      schema: RentACarWeb.Schema.Schema,
+      socket: RentACarWeb.UserSocket
   end
 
   # Enable LiveDashboard and Swoosh mailbox preview in development

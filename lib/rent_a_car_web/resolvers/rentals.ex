@@ -17,6 +17,7 @@ defmodule RentACarWeb.Resolvers.Rentals do
          message: "Booking unsuccessful.", details: ChangesetErrors.error_details(changeset)}
 
       {:ok, booking} ->
+        publish_booking_change(booking)
         {:ok, booking}
     end
   end
@@ -34,6 +35,7 @@ defmodule RentACarWeb.Resolvers.Rentals do
           }
 
         {:ok, booking} ->
+          publish_booking_change(booking)
           {:ok, booking}
       end
     else
@@ -55,5 +57,13 @@ defmodule RentACarWeb.Resolvers.Rentals do
       {:ok, review} ->
         {:ok, review}
     end
+  end
+
+  defp publish_booking_change(booking) do
+    Absinthe.Subscription.publish(
+      RentACarWeb.Endpoint,
+      booking,
+      booking_change: booking.car_id
+    )
   end
 end
