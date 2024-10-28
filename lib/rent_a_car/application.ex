@@ -7,6 +7,7 @@ defmodule RentACar.Application do
 
   @impl true
   def start(_type, _args) do
+
     children = [
       RentACarWeb.Telemetry,
       RentACar.Repo,
@@ -17,7 +18,9 @@ defmodule RentACar.Application do
       # Start a worker by calling: RentACar.Worker.start_link(arg)
       # {RentACar.Worker, arg},
       # Start to serve requests, typically the last entry
-      RentACarWeb.Endpoint
+      RentACarWeb.Endpoint,
+      # supervisor(Absinthe.Subscription, [RentACarWeb.Endpoint])
+      {Absinthe.Subscription, RentACarWeb.Endpoint}
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html

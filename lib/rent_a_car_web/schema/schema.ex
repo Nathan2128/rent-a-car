@@ -69,6 +69,17 @@ defmodule RentACarWeb.Schema.Schema do
     end
   end
 
+  subscription do
+    @desc "Subscribe to booking changes for a specific car"
+    field :booking_change, :booking do
+      arg(:car_id, non_null(:id))
+
+      config(fn args, _res ->
+        {:ok, topic: args.car_id}
+      end)
+    end
+  end
+
   # Input Object Types
   @desc "Filters for the list of cars"
   input_object :car_filter do
