@@ -22,6 +22,9 @@ config :rent_a_car, RentACarWeb.Endpoint,
   pubsub_server: RentACar.PubSub,
   live_view: [signing_salt: "fT+SJWeT"]
 
+  config :rent_a_car, RentACarWeb.AuthToken,
+  token_salt: "6D8l7wEtDGNVE6ecVLa6cJRlbGVd6+iXoMUJkKyaZdgCbh1nMtGZGT2JvmHew/nl"
+
 # Configures the mailer
 #
 # By default it uses the "Local" adapter which stores the emails
