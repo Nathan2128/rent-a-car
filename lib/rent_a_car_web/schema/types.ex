@@ -35,7 +35,6 @@ defmodule RentACarWeb.Schema.Types do
     field(:state, non_null(:string))
     field(:total_price, non_null(:decimal))
     field(:user, non_null(:user), resolve: dataloader(Accounts, batch_key: :user))
-    # field(:car, non_null(:car), resolve: Absinthe.Resolution.Helpers.dataloader(Rentals))
     field(:car, non_null(:car), resolve: dataloader(Rentals, batch_key: :car))
   end
 

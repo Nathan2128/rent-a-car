@@ -1,18 +1,122 @@
-# RentACar
+# RentACar GraphQL API
 
-To start your Phoenix server:
+To set up environment to test out the RentACar GraphQL API: 
 
-  * Run `mix setup` to install and setup dependencies
-  * Start Phoenix endpoint with `mix phx.server` or inside IEx with `iex -S mix phx.server`
+1. Create the database: `mix ecto.create`
+2. Migrate tables to the databse: `mix ecto.migrate`
+3. Seed the Database: `mix run priv/repo/seeds.exs`
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+Run the application: `mix phx.server`
+Now you can visit [`localhost:4001`](http://localhost:4001/graphiql) from your browser.
 
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
+Example Queries: 
 
-## Learn more
+# Fetch a Car by Slug
+```
+query {
+  car(slug: "tesla-model-s") {
+    id
+    name
+    description
+    pricePerDay
+    electric
+    passengers
+  }
+}
+```
 
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+# List Cars with Filters
+```
+query {
+  cars(
+    limit: 10
+    order: asc
+    filter: {
+      matching: "Tesla"
+      electric: true
+      passengers: 5
+      availableBetween: { startDate: "2023-12-01", endDate: "2023-12-10" }
+    }
+  ) {
+    id
+    name
+    description
+    pricePerDay
+    electric
+    passengers
+  }
+}
+```
+
+# Create a Booking (Authenticated)
+```
+mutation {
+  createBooking(carId: 1, startDate: "2023-12-01", endDate: "2023-12-10") {
+    id
+    startDate
+    endDate
+    totalPrice
+    car {
+      name
+    }
+  }
+}
+```
+
+# Cancel a Booking (Authenticated)
+```
+mutation {
+  cancelBooking(bookingId: 1) {
+    id
+    state
+  }
+}
+```
+
+# Create a Review (Authenticated)
+```
+mutation {
+  createReview(carId: 1, rating: 5, comment: "Great experience!") {
+    id
+    rating
+    comment
+    car {
+      name
+    }
+  }
+}
+```
+
+# Sign up
+```
+mutation {
+  signUp(
+    username: "johndoe"
+    email: "johndoe@example.com"
+    password: "securePassword123"
+    firstName: "John"
+    lastName: "Doe"
+  ) {
+    token
+    user {
+      id
+      username
+    }
+  }
+}
+```
+
+# Sign in
+```
+mutation {
+  signIn(username: "johndoe", password: "securePassword123") {
+    token
+    user {
+      id
+      username
+    }
+  }
+}
+```
+
+
